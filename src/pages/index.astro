@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout title="CapsuleX - Home">
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <section class="hero">
+      <h1>CapsuleX</h1>
+      <p class="hero-description">
+        A minimal blog theme with capsule design. Modern, clean, and fast.
+      </p>
+    </section>
+
+    <section class="posts">
+      <h2>Recent Posts</h2>
+      <p class="placeholder">No posts yet. Create your first post in <code>src/content/blog/</code></p>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    padding: 3rem 0;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-description {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .posts {
+    padding: 2rem 0;
+  }
+
+  .posts h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .placeholder {
+    color: var(--text-tertiary);
+    text-align: center;
+    padding: 3rem;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    border: 1px dashed var(--border-color);
+  }
+</style>
