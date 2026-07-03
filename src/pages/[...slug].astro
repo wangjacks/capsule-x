@@ -1,0 +1,127 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+import { siteConfig } from '../config';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title + ' - ' + siteConfig.title}>
+  <Navigation />
+
+  <main class="container" style="padding-top: 6rem;">
+    <article class="post">
+      <header class="post-header">
+        <h1>{post.data.title}</h1>
+        <div class="post-meta">
+          <time>{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+          {post.data.tags.length > 0 && (
+            <div class="post-tags">
+              {post.data.tags.map(tag => (
+                <a href={`/tags/${tag}`} class="post-tag">#{tag}</a>
+              ))}
+            </div>
+          )}
+        </div>
+      </header>
+
+      <div class="post-content">
+        <Content />
+      </div>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .post {
+    max-width: 720px;
+    padding: 2rem 0;
+  }
+
+  .post-header {
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .post-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--text-tertiary);
+    font-size: 0.875rem;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .post-tag {
+    color: var(--color-primary);
+    font-size: 0.875rem;
+  }
+
+  .post-tag:hover {
+    text-decoration: underline;
+  }
+
+  .post-content {
+    line-height: 1.8;
+  }
+
+  .post-content :global(h2) {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .post-content :global(h3) {
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-content :global(p) {
+    margin-bottom: 1.25rem;
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    margin-bottom: 1.25rem;
+    padding-left: 1.5rem;
+  }
+
+  .post-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .post-content :global(blockquote) {
+    border-left: 3px solid var(--color-primary);
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  .post-content :global(img) {
+    border-radius: 8px;
+    margin: 1.5rem 0;
+  }
+</style>
