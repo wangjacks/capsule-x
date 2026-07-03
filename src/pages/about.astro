@@ -2,9 +2,10 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import { siteConfig } from '../config';
 ---
 
-<BaseLayout title="About - CapsuleX">
+<BaseLayout title={'About - ' + siteConfig.title}>
   <Navigation />
 
   <main class="container" style="padding-top: 6rem;">

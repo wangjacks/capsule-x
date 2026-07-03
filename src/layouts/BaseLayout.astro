@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { siteConfig } from '../config';
 
 interface Props {
   title?: string;
@@ -7,13 +8,13 @@ interface Props {
 }
 
 const {
-  title = 'CapsuleX',
-  description = 'A minimal blog theme with capsule design'
+  title = siteConfig.title,
+  description = siteConfig.description
 } = Astro.props;
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang={siteConfig.lang}>
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

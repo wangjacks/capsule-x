@@ -2,16 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import { siteConfig } from '../config';
 ---
 
-<BaseLayout title="CapsuleX - Home">
+<BaseLayout title={siteConfig.title + ' - Home'}>
   <Navigation />
 
   <main class="container" style="padding-top: 6rem;">
     <section class="hero">
-      <h1>CapsuleX</h1>
+      <h1>{siteConfig.title}</h1>
       <p class="hero-description">
-        A minimal blog theme with capsule design. Modern, clean, and fast.
+        {siteConfig.description}
       </p>
     </section>
 

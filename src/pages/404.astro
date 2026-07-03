@@ -1,9 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
+import { siteConfig } from '../config';
 ---
 
-<BaseLayout title="404 - CapsuleX">
+<BaseLayout title={'404 - ' + siteConfig.title}>
   <Navigation />
 
   <main class="container" style="padding-top: 6rem;">

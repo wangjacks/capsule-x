@@ -1,4 +1,5 @@
 ---
+import { siteConfig } from '../config';
 ---
 
 <nav class="capsule-nav">
@@ -9,13 +10,13 @@
         <circle cx="8" cy="12" r="2" fill="currentColor"/>
         <circle cx="16" cy="12" r="2" fill="currentColor"/>
       </svg>
-      <span>CapsuleX</span>
+      <span>{siteConfig.title}</span>
     </a>
 
     <div class="nav-links">
-      <a href="/" class="nav-link">Home</a>
-      <a href="/about" class="nav-link">About</a>
-      <a href="/tags" class="nav-link">Tags</a>
+      {siteConfig.nav.map(link => (
+        <a href={link.href} class="nav-link">{link.title}</a>
+      ))}
     </div>
 
     <div class="theme-capsule" id="theme-capsule">
