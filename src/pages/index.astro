@@ -2,7 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import { getCollection } from 'astro:content';
 import { siteConfig } from '../config';
+
+const posts = (await getCollection('blog'))
+  .filter(post => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
 
 <BaseLayout title={siteConfig.title + ' - Home'}>
@@ -18,7 +23,26 @@ import { siteConfig } from '../config';
 
     <section class="posts">
       <h2>Recent Posts</h2>
-      <p class="placeholder">No posts yet. Create your first post in <code>src/content/blog/</code></p>
+      {posts.length === 0 ? (
+        <p class="placeholder">No posts yet. Create your first post in <code>src/content/blog/</code></p>
+      ) : (
+        <div class="posts-list">
+          {posts.map(post => (
+            <article class="post-item">
+              <time>{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+              <h3><a href={`/${post.id}`}>{post.data.title}</a></h3>
+              <p>{post.data.description}</p>
+              {post.data.tags.length > 0 && (
+                <div class="post-tags">
+                  {post.data.tags.map(tag => (
+                    <a href={`/tags/${tag}`} class="post-tag">#{tag}</a>
+                  ))}
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+      )}
     </section>
   </main>
 
@@ -62,5 +86,57 @@ import { siteConfig } from '../config';
     background: var(--bg-secondary);
     border-radius: 12px;
     border: 1px dashed var(--border-color);
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .post-item {
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .post-item:last-child {
+    border-bottom: none;
+  }
+
+  .post-item time {
+    color: var(--text-tertiary);
+    font-size: 0.875rem;
+  }
+
+  .post-item h3 {
+    margin: 0.5rem 0;
+  }
+
+  .post-item h3 a {
+    color: var(--text-primary);
+  }
+
+  .post-item h3 a:hover {
+    color: var(--color-primary);
+  }
+
+  .post-item p {
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .post-tag {
+    color: var(--color-primary);
+    font-size: 0.875rem;
+  }
+
+  .post-tag:hover {
+    text-decoration: underline;
   }
 </style>
