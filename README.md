@@ -19,22 +19,26 @@
 - 🎯 **Capsule Floating Navigation** — Glassmorphism nav bar with backdrop blur
 - 🌗 **Tri-State Theme** — Auto (follow device) / Light / Dark
 - ⚡ **Fast** — Static generation with Astro, zero client JS by default
-- 📝 **MDX Support** — Write content with Markdown + JSX components
 - 🏷️ **Tag System** — Filter posts by tags
 - 📱 **Responsive** — Mobile-first design
-- 🔍 **Search Ready** — Pagefind integration (coming soon)
-- 📊 **Mermaid Diagrams** — Render diagrams in your posts (coming soon)
+
+### Coming Soon
+
+- 📝 MDX Support
+- 🔍 Pagefind Search
+- 📊 Mermaid Diagrams
+- 📖 Reading progress bar & TOC
+- ✨ Scroll animations
 
 ## Getting Started
 
-```bash
-npm create astro@latest -- --template your-username/capsule-x
-```
-
-Or add to an existing project:
+> ⚠️ This theme is under active development. Not yet published to npm.
 
 ```bash
-npm install capsule-x
+git clone https://github.com/wangjacks/capsule-x.git
+cd capsule-x
+npm install
+npm run dev
 ```
 
 ## Project Structure
@@ -50,19 +54,6 @@ capsule-x/
 │   └── styles/           # Global CSS
 ├── public/               # Static assets
 └── docs/                 # Project documentation
-```
-
-## Configuration
-
-Create `src/config.ts` to customize your site:
-
-```ts
-export const siteConfig = {
-  title: 'Your Blog',
-  description: 'Your blog description',
-  author: 'Your Name',
-  // ...
-};
 ```
 
 ## Development
