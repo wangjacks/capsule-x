@@ -8,14 +8,21 @@ import { siteConfig } from '../config';
 import { estimateReadingTime } from '../utils/readingTime';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map(post => ({
+  const posts = (await getCollection('blog'))
+    .filter(post => !post.data.draft)
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+  return posts.map((post, index) => ({
     params: { slug: post.id },
-    props: { post },
+    props: {
+      post,
+      prev: index < posts.length - 1 ? posts[index + 1] : null,
+      next: index > 0 ? posts[index - 1] : null,
+    },
   }));
 }
 
-const { post } = Astro.props;
+const { post, prev, next } = Astro.props;
 const { Content, headings } = await render(post);
 const readingTime = estimateReadingTime(post.body || '');
 ---
@@ -44,6 +51,23 @@ const readingTime = estimateReadingTime(post.body || '');
       <div class="post-content">
         <Content />
       </div>
+
+      {(prev || next) && (
+        <nav class="post-nav" aria-label="Post navigation">
+          {prev ? (
+            <a href={`/${prev.id}`} class="post-nav-link post-nav-prev">
+              <span class="post-nav-label">← Previous</span>
+              <span class="post-nav-title">{prev.data.title}</span>
+            </a>
+          ) : <div />}
+          {next ? (
+            <a href={`/${next.id}`} class="post-nav-link post-nav-next">
+              <span class="post-nav-label">Next →</span>
+              <span class="post-nav-title">{next.data.title}</span>
+            </a>
+          ) : <div />}
+        </nav>
+      )}
     </article>
 
     <aside class="post-sidebar">
@@ -166,6 +190,58 @@ const readingTime = estimateReadingTime(post.body || '');
     margin: 1.5rem 0;
   }
 
+  /* Prev / Next Navigation */
+  .post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .post-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    min-width: 0;
+  }
+
+  .post-nav-link:hover {
+    border-color: var(--color-primary);
+    background: var(--bg-tertiary);
+  }
+
+  .post-nav-next {
+    text-align: right;
+  }
+
+  .post-nav-label {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .post-nav-title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .post-nav-link:hover .post-nav-title {
+    color: var(--color-primary);
+  }
+
   /* Tablet: hide sidebar, single column */
   @media (max-width: 1080px) {
     .post-layout {
@@ -175,6 +251,16 @@ const readingTime = estimateReadingTime(post.body || '');
 
     .post-sidebar {
       display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .post-nav {
+      grid-template-columns: 1fr;
+    }
+
+    .post-nav-next {
+      text-align: left;
     }
   }
 </style>
