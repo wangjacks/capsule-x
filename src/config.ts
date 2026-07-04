@@ -12,7 +12,8 @@ export const siteConfig = {
   author: 'wangjacks',
 
   // Site URL — set before deployment (e.g., https://example.com)
-  site: '',
+  // Used for RSS feed and SEO
+  site: 'https://capsule-x-brown.vercel.app',
 
   // HTML lang attribute — affects SEO and accessibility
   lang: 'en',
@@ -35,6 +36,7 @@ export const siteConfig = {
     backToTop: true,        // Show back to top button
     callout: true,          // Show callout components in blog posts
     lightbox: true,         // Enable image lightbox on click
+    rss: true,              // Enable RSS feed
   },
 };
 

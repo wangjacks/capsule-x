@@ -6,6 +6,7 @@ import {
   transformerNotationDiff,
   transformerMetaHighlight,
 } from '@shikijs/transformers';
+import { siteConfig } from './src/config.ts';
 
 // Custom transformer to add title attribute as data attribute
 function transformerTitle() {
@@ -23,6 +24,7 @@ function transformerTitle() {
 
 // https://astro.build/config
 export default defineConfig({
+  site: siteConfig.site || undefined,
   integrations: [mdx()],
   markdown: {
     remarkPlugins: [remarkAlert],
