@@ -5,8 +5,8 @@
 /* CSS Variables — Light Mode (default) */
 :root {
   /* Sky Blue Accent */
-  --color-primary: #0ea5e9;
-  --color-primary-hover: #0284c7;
+  --color-primary: #0369a1;
+  --color-primary-hover: #075985;
   --color-primary-light: #e0f2fe;
   --color-primary-dark: #0c4a6e;
 
@@ -18,7 +18,7 @@
   /* Text */
   --text-primary: #0f172a;
   --text-secondary: #475569;
-  --text-tertiary: #94a3b8;
+  --text-tertiary: #5a6b7d;
 
   /* Border */
   --border-color: #e2e8f0;
@@ -50,9 +50,12 @@ html.dark {
   --bg-secondary: #1e293b;
   --bg-tertiary: #334155;
 
+  --color-primary: #38bdf8;
+  --color-primary-hover: #7dd3fc;
+
   --text-primary: #f8fafc;
   --text-secondary: #cbd5e1;
-  --text-tertiary: #64748b;
+  --text-tertiary: #94a3b8;
 
   --border-color: #334155;
   --border-color-hover: #475569;
