@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
 import TableOfContents from '../components/TableOfContents.astro';
+import ReadingProgress from '../components/ReadingProgress.astro';
 import { getCollection, render } from 'astro:content';
 import { siteConfig } from '../config';
 import { estimateReadingTime } from '../utils/readingTime';
@@ -29,6 +30,7 @@ const readingTime = estimateReadingTime(post.body || '');
 
 <BaseLayout title={post.data.title + ' - ' + siteConfig.title}>
   <Navigation />
+  {siteConfig.features?.readingProgress && <ReadingProgress />}
 
   <main class="post-layout" style="padding-top: 6rem;">
     <article class="post">

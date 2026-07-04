@@ -28,6 +28,11 @@ export const siteConfig = {
   social: {
     github: 'https://github.com/wangjacks/capsule-x',
   },
+
+  // Feature toggles
+  features: {
+    readingProgress: true,  // Show reading progress bar on post pages
+  },
 };
 
 export type SiteConfig = typeof siteConfig;
