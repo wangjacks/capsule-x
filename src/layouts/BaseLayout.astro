@@ -35,6 +35,16 @@ const {
         document.documentElement.setAttribute('data-theme', saved);
         document.documentElement.classList.add(effectiveTheme);
       })();
+
+      // Re-apply theme after View Transitions swap (before page is visible)
+      document.addEventListener('astro:after-swap', () => {
+        const saved = localStorage.getItem('theme') || 'auto';
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const effectiveTheme = saved === 'auto' ? (prefersDark ? 'dark' : 'light') : saved;
+        document.documentElement.setAttribute('data-theme', saved);
+        document.documentElement.classList.remove('dark', 'light');
+        document.documentElement.classList.add(effectiveTheme);
+      });
     </script>
   </head>
   <body>
