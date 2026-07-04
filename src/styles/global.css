@@ -191,6 +191,63 @@ pre code {
 }
 
 /* ===================================
+   Tables
+   =================================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+}
+
+thead {
+  border-bottom: none;
+}
+
+th {
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+  background: var(--bg-secondary);
+}
+
+th:first-child {
+  border-radius: 9999px 0 0 9999px;
+}
+
+th:last-child {
+  border-radius: 0 9999px 9999px 0;
+}
+
+td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-secondary);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tbody tr:hover {
+  background: var(--bg-secondary);
+}
+
+/* Responsive table wrapper */
+.table-wrapper {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.table-wrapper table {
+  margin: 0;
+}
+
+/* ===================================
    View Transitions
    =================================== */
 
