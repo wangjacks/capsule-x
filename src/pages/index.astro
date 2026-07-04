@@ -28,10 +28,10 @@ const posts = (await getCollection('blog'))
         <p class="placeholder">No posts yet. Create your first post in <code>src/content/blog/</code></p>
       ) : (
         <div class="posts-list">
-          {posts.map(post => {
+          {posts.map((post, i) => {
             const readingTime = estimateReadingTime(post.body || '');
             return (
-              <article class="post-item">
+              <article class="post-item" style={`--fade-delay: ${i * 0.1}s`}>
                 <div class="post-meta">
                   <time>{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
                   <span class="meta-sep">·</span>
@@ -105,6 +105,11 @@ const posts = (await getCollection('blog'))
   .post-item {
     padding-bottom: 2rem;
     border-bottom: 1px solid var(--border-color);
+    opacity: 0;
+  }
+
+  .post-item.animate {
+    animation: fadeIn 0.5s ease var(--fade-delay, 0s) forwards;
   }
 
   .post-item:last-child {
@@ -163,3 +168,19 @@ const posts = (await getCollection('blog'))
     text-decoration: underline;
   }
 </style>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { rootMargin: '0px 0px -60px 0px', threshold: 0 }
+  );
+
+  document.querySelectorAll('.post-item').forEach(el => observer.observe(el));
+</script>
