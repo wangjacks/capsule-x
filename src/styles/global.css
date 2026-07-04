@@ -2,6 +2,8 @@
    CapsuleX — Global Styles
    =================================== */
 
+@import './code-block.css';
+
 /* CSS Variables — Light Mode (default) */
 :root {
   /* Sky Blue Accent */

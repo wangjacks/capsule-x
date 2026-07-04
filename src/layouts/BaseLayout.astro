@@ -4,6 +4,7 @@ import '../styles/callout.css';
 import { siteConfig } from '../config';
 import { ClientRouter } from 'astro:transitions';
 import BackToTop from '../components/BackToTop.astro';
+import CodeBlockCopy from '../components/CodeBlockCopy.astro';
 
 interface Props {
   title?: string;
@@ -52,5 +53,6 @@ const {
   <body>
     <slot />
     {siteConfig.features?.backToTop && <BackToTop />}
+    <CodeBlockCopy />
   </body>
 </html>
