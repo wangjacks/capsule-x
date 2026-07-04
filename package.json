@@ -16,6 +16,7 @@
     "@astrojs/rss": "^4.0.19",
     "@shikijs/transformers": "^4.3.1",
     "astro": "^7.0.6",
+    "fuse.js": "^7.4.2",
     "remark-github-blockquote-alert": "^2.1.0"
   }
 }

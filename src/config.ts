@@ -37,6 +37,7 @@ export const siteConfig = {
     callout: true,          // Show callout components in blog posts
     lightbox: true,         // Enable image lightbox on click
     rss: true,              // Enable RSS feed
+    search: true,           // Enable client-side search (Fuse.js)
   },
 };
 

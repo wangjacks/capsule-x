@@ -6,6 +6,7 @@ import { ClientRouter } from 'astro:transitions';
 import BackToTop from '../components/BackToTop.astro';
 import CodeBlockCopy from '../components/CodeBlockCopy.astro';
 import Lightbox from '../components/Lightbox.astro';
+import SearchModal from '../components/SearchModal.astro';
 
 interface Props {
   title?: string;
@@ -59,5 +60,6 @@ const {
     {siteConfig.features?.backToTop && <BackToTop />}
     <CodeBlockCopy />
     {siteConfig.features?.lightbox && <Lightbox />}
+    {siteConfig.features?.search && <SearchModal />}
   </body>
 </html>
