@@ -184,55 +184,60 @@ const tocHeadings = headings.filter(h => h.depth >= 2 && h.depth <= 3);
 </style>
 
 <script>
-  // IntersectionObserver for active heading tracking
-  const headingElements = document.querySelectorAll('.post-content :where(h2, h3)');
-  const tocLinks = document.querySelectorAll('.toc-link[data-heading]');
+  function initTOC() {
+    // IntersectionObserver for active heading tracking
+    const headingElements = document.querySelectorAll('.post-content :where(h2, h3)');
+    const tocLinks = document.querySelectorAll('.toc-link[data-heading]');
 
-  if (headingElements.length > 0 && tocLinks.length > 0) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries.filter(e => e.isIntersecting);
-        if (visibleEntries.length > 0) {
-          const activeId = visibleEntries[0].target.id;
-          tocLinks.forEach(link => {
-            link.classList.toggle('active', link.getAttribute('data-heading') === activeId);
-          });
+    if (headingElements.length > 0 && tocLinks.length > 0) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visibleEntries = entries.filter(e => e.isIntersecting);
+          if (visibleEntries.length > 0) {
+            const activeId = visibleEntries[0].target.id;
+            tocLinks.forEach(link => {
+              link.classList.toggle('active', link.getAttribute('data-heading') === activeId);
+            });
+          }
+        },
+        {
+          rootMargin: '-80px 0px -60% 0px',
+          threshold: 0,
         }
-      },
-      {
-        rootMargin: '-80px 0px -60% 0px',
-        threshold: 0,
-      }
-    );
+      );
 
-    headingElements.forEach(heading => {
-      if (heading.id) observer.observe(heading);
+      headingElements.forEach(heading => {
+        if (heading.id) observer.observe(heading);
+      });
+    }
+
+    // Mobile TOC toggle
+    const tocToggle = document.getElementById('toc-toggle');
+    const tocPanel = document.getElementById('toc-panel');
+
+    tocToggle?.addEventListener('click', () => {
+      tocToggle.classList.toggle('open');
+      tocPanel?.classList.toggle('open');
+    });
+
+    // Close panel when clicking a link
+    tocPanel?.querySelectorAll('.toc-link').forEach(link => {
+      link.addEventListener('click', () => {
+        tocToggle?.classList.remove('open');
+        tocPanel?.classList.remove('open');
+      });
+    });
+
+    // Close panel when clicking outside
+    document.addEventListener('click', (e) => {
+      const mobile = document.getElementById('toc-mobile');
+      if (mobile && !mobile.contains(e.target as Node)) {
+        tocToggle?.classList.remove('open');
+        tocPanel?.classList.remove('open');
+      }
     });
   }
 
-  // Mobile TOC toggle
-  const tocToggle = document.getElementById('toc-toggle');
-  const tocPanel = document.getElementById('toc-panel');
-
-  tocToggle?.addEventListener('click', () => {
-    tocToggle.classList.toggle('open');
-    tocPanel?.classList.toggle('open');
-  });
-
-  // Close panel when clicking a link
-  tocPanel?.querySelectorAll('.toc-link').forEach(link => {
-    link.addEventListener('click', () => {
-      tocToggle?.classList.remove('open');
-      tocPanel?.classList.remove('open');
-    });
-  });
-
-  // Close panel when clicking outside
-  document.addEventListener('click', (e) => {
-    const mobile = document.getElementById('toc-mobile');
-    if (mobile && !mobile.contains(e.target as Node)) {
-      tocToggle?.classList.remove('open');
-      tocPanel?.classList.remove('open');
-    }
-  });
+  // Initialize on page load (including first load with ClientRouter)
+  document.addEventListener('astro:page-load', initTOC);
 </script>

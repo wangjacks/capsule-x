@@ -21,17 +21,22 @@
 </style>
 
 <script>
-  function updateProgress() {
-    const bar = document.getElementById('reading-progress');
-    if (!bar) return;
+  function initReadingProgress() {
+    function updateProgress() {
+      const bar = document.getElementById('reading-progress');
+      if (!bar) return;
 
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
 
-    bar.style.transform = `scaleX(${Math.min(progress, 1)})`;
+      bar.style.transform = `scaleX(${Math.min(progress, 1)})`;
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
   }
 
-  window.addEventListener('scroll', updateProgress, { passive: true });
-  updateProgress();
+  // Initialize on page load (including first load with ClientRouter)
+  document.addEventListener('astro:page-load', initReadingProgress);
 </script>

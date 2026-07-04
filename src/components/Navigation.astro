@@ -214,69 +214,74 @@ import { siteConfig } from '../config';
 </style>
 
 <script>
-  // Theme Management
-  const html = document.documentElement;
-  const themeCapsule = document.getElementById('theme-capsule');
-  const themeOptions = themeCapsule?.querySelectorAll('.theme-option');
+  function initNavigation() {
+    // Theme Management
+    const html = document.documentElement;
+    const themeCapsule = document.getElementById('theme-capsule');
+    const themeOptions = themeCapsule?.querySelectorAll('.theme-option');
 
-  // Get saved theme or default to 'auto'
-  function getTheme(): string {
-    return localStorage.getItem('theme') || 'auto';
-  }
-
-  // Apply theme based on mode
-  function applyTheme(mode: string) {
-    let effectiveTheme: string;
-
-    if (mode === 'auto') {
-      effectiveTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    } else {
-      effectiveTheme = mode;
+    // Get saved theme or default to 'auto'
+    function getTheme(): string {
+      return localStorage.getItem('theme') || 'auto';
     }
 
-    html.setAttribute('data-theme', mode);
-    html.classList.remove('dark', 'light');
-    html.classList.add(effectiveTheme);
-    localStorage.setItem('theme', mode);
+    // Apply theme based on mode
+    function applyTheme(mode: string) {
+      let effectiveTheme: string;
 
-    // Update active state
-    themeOptions?.forEach(opt => {
-      opt.classList.toggle('active', opt.getAttribute('data-theme') === mode);
-    });
-  }
+      if (mode === 'auto') {
+        effectiveTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      } else {
+        effectiveTheme = mode;
+      }
 
-  // Initialize theme
-  applyTheme(getTheme());
+      html.setAttribute('data-theme', mode);
+      html.classList.remove('dark', 'light');
+      html.classList.add(effectiveTheme);
+      localStorage.setItem('theme', mode);
 
-  // Listen for system preference changes (only when in auto mode)
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    if (getTheme() === 'auto') {
-      applyTheme('auto');
+      // Update active state
+      themeOptions?.forEach(opt => {
+        opt.classList.toggle('active', opt.getAttribute('data-theme') === mode);
+      });
     }
-  });
 
-  // Theme option clicks
-  themeOptions?.forEach(option => {
-    option.addEventListener('click', () => {
-      const theme = option.getAttribute('data-theme');
-      if (theme) {
-        applyTheme(theme);
+    // Initialize theme
+    applyTheme(getTheme());
+
+    // Listen for system preference changes (only when in auto mode)
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (getTheme() === 'auto') {
+        applyTheme('auto');
       }
     });
-  });
 
-  // Mobile menu toggle
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-
-  mobileMenuBtn?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('active');
-  });
-
-  // Close mobile menu when clicking a link
-  document.querySelectorAll('.mobile-link').forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu?.classList.remove('active');
+    // Theme option clicks
+    themeOptions?.forEach(option => {
+      option.addEventListener('click', () => {
+        const theme = option.getAttribute('data-theme');
+        if (theme) {
+          applyTheme(theme);
+        }
+      });
     });
-  });
+
+    // Mobile menu toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuBtn?.addEventListener('click', () => {
+      mobileMenu?.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu?.classList.remove('active');
+      });
+    });
+  }
+
+  // Initialize on page load (including first load with ClientRouter)
+  document.addEventListener('astro:page-load', initNavigation);
 </script>
