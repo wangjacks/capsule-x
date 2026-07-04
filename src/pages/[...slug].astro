@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navigation from '../components/Navigation.astro';
 import Footer from '../components/Footer.astro';
+import TableOfContents from '../components/TableOfContents.astro';
 import { getCollection, render } from 'astro:content';
 import { siteConfig } from '../config';
 
@@ -14,13 +15,13 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, headings } = await render(post);
 ---
 
 <BaseLayout title={post.data.title + ' - ' + siteConfig.title}>
   <Navigation />
 
-  <main class="container" style="padding-top: 6rem;">
+  <main class="post-layout" style="padding-top: 6rem;">
     <article class="post">
       <header class="post-header">
         <h1>{post.data.title}</h1>
@@ -40,15 +41,38 @@ const { Content } = await render(post);
         <Content />
       </div>
     </article>
+
+    <aside class="post-sidebar">
+      <TableOfContents headings={headings} variant="desktop" />
+    </aside>
+
+    <TableOfContents headings={headings} variant="mobile" />
   </main>
 
   <Footer />
 </BaseLayout>
 
 <style>
+  .post-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 720px) 200px;
+    justify-content: center;
+    gap: 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    align-items: start;
+  }
+
   .post {
-    max-width: 720px;
+    min-width: 0;
     padding: 2rem 0;
+  }
+
+  .post-sidebar {
+    position: sticky;
+    top: 6rem;
+    padding-top: 2rem;
   }
 
   .post-header {
@@ -123,5 +147,17 @@ const { Content } = await render(post);
   .post-content :global(img) {
     border-radius: 8px;
     margin: 1.5rem 0;
+  }
+
+  /* Tablet: hide sidebar, single column */
+  @media (max-width: 1080px) {
+    .post-layout {
+      grid-template-columns: 1fr;
+      max-width: 720px;
+    }
+
+    .post-sidebar {
+      display: none;
+    }
   }
 </style>
