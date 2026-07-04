@@ -8,7 +8,13 @@ import { estimateReadingTime } from '../utils/readingTime';
 
 const posts = (await getCollection('blog'))
   .filter(post => !post.data.draft)
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  .sort((a, b) => {
+    // Pinned posts first
+    if (a.data.pinned && !b.data.pinned) return -1;
+    if (!a.data.pinned && b.data.pinned) return 1;
+    // Then by date
+    return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+  });
 ---
 
 <BaseLayout title={siteConfig.title + ' - Home'}>
@@ -31,8 +37,9 @@ const posts = (await getCollection('blog'))
           {posts.map((post, i) => {
             const readingTime = estimateReadingTime(post.body || '');
             return (
-              <article class="post-item" style={`--fade-delay: ${i * 0.1}s`}>
+              <article class={`post-item ${post.data.pinned ? 'pinned' : ''}`} style={`--fade-delay: ${i * 0.1}s`}>
                 <div class="post-meta">
+                  {post.data.pinned && <span class="pin-badge">Pinned</span>}
                   <time>{post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
                   <span class="meta-sep">·</span>
                   <span class="reading-time">{readingTime} min read</span>
@@ -165,6 +172,33 @@ const posts = (await getCollection('blog'))
 
   .post-tag:hover {
     text-decoration: underline;
+  }
+
+  .post-item.pinned {
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+  }
+
+  .pin-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.125rem 0.5rem;
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .pin-badge::before {
+    content: '📌';
+    font-size: 0.625rem;
   }
 </style>
 

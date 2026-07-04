@@ -3,6 +3,7 @@ title: "Hello World"
 description: "This is your first blog post. Edit or delete it, then start writing!"
 pubDate: 2026-07-04
 tags: ["welcome", "tutorial"]
+pinned: true
 ---
 
 ## Welcome to CapsuleX

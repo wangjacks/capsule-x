@@ -3,6 +3,7 @@ title: "How to Build a Blog with Astro"
 description: "Build a modern static blog from scratch using the Astro framework, covering project setup, content management, and deployment."
 pubDate: 2026-07-05
 tags: ["astro", "tutorial", "web"]
+pinned: true
 ---
 
 ## Why Astro?
