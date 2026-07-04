@@ -5,6 +5,7 @@ import { siteConfig } from '../config';
 import { ClientRouter } from 'astro:transitions';
 import BackToTop from '../components/BackToTop.astro';
 import CodeBlockCopy from '../components/CodeBlockCopy.astro';
+import Lightbox from '../components/Lightbox.astro';
 
 interface Props {
   title?: string;
@@ -54,5 +55,6 @@ const {
     <slot />
     {siteConfig.features?.backToTop && <BackToTop />}
     <CodeBlockCopy />
+    {siteConfig.features?.lightbox && <Lightbox />}
   </body>
 </html>
