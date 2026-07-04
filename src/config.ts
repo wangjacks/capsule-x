@@ -33,6 +33,7 @@ export const siteConfig = {
   features: {
     readingProgress: true,  // Show reading progress bar on post pages
     backToTop: true,        // Show back to top button
+    callout: true,          // Show callout components in blog posts
   },
 };
 
