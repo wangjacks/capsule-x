@@ -12,7 +12,9 @@ import { siteConfig } from './src/config.ts';
 function transformerTitle() {
   return {
     name: 'transformer-title',
+    // @ts-expect-error any type
     pre(node) {
+      // @ts-expect-error any type
       const meta = this.options?.meta?.__raw || '';
       const titleMatch = meta.match(/title="([^"]+)"/);
       if (titleMatch) {
