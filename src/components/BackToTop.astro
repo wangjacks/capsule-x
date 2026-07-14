@@ -74,13 +74,13 @@
       }
       
       if (shouldShow) {
-        btn.classList.add('visible');
+        btn?.classList.add('visible');
         // Move TOC up when back-to-top is visible
         if (tocMobile) {
           tocMobile.style.bottom = '4.5rem';
         }
       } else {
-        btn.classList.remove('visible');
+        btn?.classList.remove('visible');
         // Reset TOC position
         if (tocMobile) {
           tocMobile.style.bottom = '1rem';

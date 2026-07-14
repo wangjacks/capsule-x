@@ -36,7 +36,7 @@ const posts = (await getCollection('blog'))
   </div>
 </div>
 
-<script define:vars={{ posts }}>
+<script define:vars={{ posts }} is:inline>
   // Store posts data for Fuse.js
   window.__searchPosts = posts;
 </script>
@@ -53,6 +53,7 @@ const posts = (await getCollection('blog'))
     if (!modal || !overlay || !input || !resultsContainer) return;
 
     // Initialize Fuse.js
+    // @ts-expect-error window.__searchPosts is defined in the inline script above
     const posts = window.__searchPosts || [];
     const fuse = new Fuse(posts, {
       keys: ['title', 'description', 'tags'],
@@ -62,33 +63,33 @@ const posts = (await getCollection('blog'))
 
     // Close modal
     function closeModal() {
-      modal.classList.remove('active');
+      modal?.classList.remove('active');
       input.value = '';
-      resultsContainer.innerHTML = '<p class="search-empty">Type to search...</p>';
+      (resultsContainer as HTMLDivElement).innerHTML = '<p class="search-empty">Type to search...</p>';
     }
 
     // Search and render results
     function search(query: string) {
       if (!query.trim()) {
-        resultsContainer.innerHTML = '<p class="search-empty">Type to search...</p>';
+        (resultsContainer as HTMLDivElement).innerHTML = '<p class="search-empty">Type to search...</p>';
         return;
       }
 
       const results = fuse.search(query);
 
       if (results.length === 0) {
-        resultsContainer.innerHTML = '<p class="search-empty">No results found</p>';
+        (resultsContainer as HTMLDivElement).innerHTML = '<p class="search-empty">No results found</p>';
         return;
       }
 
-      resultsContainer.innerHTML = results.map(result => `
+      (resultsContainer as HTMLDivElement).innerHTML = results.map((result: any) => `
         <a href="/${result.item.id}" class="search-result">
           <h3 class="search-result-title">${result.item.title}</h3>
           <p class="search-result-desc">${result.item.description}</p>
           <div class="search-result-meta">
             <span class="search-result-date">${result.item.date}</span>
             ${result.item.tags.length > 0 ? `
-              <span class="search-result-tags">${result.item.tags.map(t => `#${t}`).join(' ')}</span>
+              <span class="search-result-tags">${result.item.tags.map((t: any) => `#${t}`).join(' ')}</span>
             ` : ''}
           </div>
         </a>

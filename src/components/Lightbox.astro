@@ -135,22 +135,22 @@
     // Open lightbox with specific image
     function openLightbox(img: HTMLImageElement, index: number) {
       currentIndex = index;
-      image.src = img.src;
-      image.alt = img.alt;
-      overlay.classList.add('active');
+      (image as HTMLImageElement).src = img.src;
+      (image as HTMLImageElement).alt = img.alt;
+      overlay?.classList.add('active');
       document.body.style.overflow = 'hidden';
 
       // Show/hide nav buttons based on image count
       if (images.length <= 1) {
-        overlay.classList.add('single-image');
+        overlay?.classList.add('single-image');
       } else {
-        overlay.classList.remove('single-image');
+        overlay?.classList.remove('single-image');
       }
     }
 
     // Close lightbox
     function closeLightbox() {
-      overlay.classList.remove('active');
+      overlay?.classList.remove('active');
       document.body.style.overflow = '';
     }
 
@@ -158,16 +158,16 @@
     function showPrev() {
       if (images.length <= 1) return;
       currentIndex = (currentIndex - 1 + images.length) % images.length;
-      image.src = images[currentIndex].src;
-      image.alt = images[currentIndex].alt;
+      (image as HTMLImageElement).src = images[currentIndex].src;
+      (image as HTMLImageElement).alt = images[currentIndex].alt;
     }
 
     // Navigate to next image
     function showNext() {
       if (images.length <= 1) return;
       currentIndex = (currentIndex + 1) % images.length;
-      image.src = images[currentIndex].src;
-      image.alt = images[currentIndex].alt;
+      (image as HTMLImageElement).src = images[currentIndex].src;
+      (image as HTMLImageElement).alt = images[currentIndex].alt;
     }
 
     // Add click handlers to images

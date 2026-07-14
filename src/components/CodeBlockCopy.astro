@@ -38,11 +38,11 @@
         try {
           await navigator.clipboard.writeText(codeEl.textContent || '');
           button.classList.add('copied');
-          button.querySelector('span').textContent = 'Copied!';
+          (button.querySelector('span') as HTMLSpanElement).textContent = 'Copied!';
 
           setTimeout(() => {
             button.classList.remove('copied');
-            button.querySelector('span').textContent = 'Copy';
+            (button.querySelector('span') as HTMLSpanElement).textContent = 'Copy';
           }, 2000);
         } catch (err) {
           console.error('Failed to copy:', err);
