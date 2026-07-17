@@ -15,6 +15,9 @@
 
 ---
 
+> [!NOTE]
+> This theme is in beta. There are no official releases or npm packages yet. If you want to use it, clone directly from the repository.
+
 ## Features
 
 ### Navigation & Layout
