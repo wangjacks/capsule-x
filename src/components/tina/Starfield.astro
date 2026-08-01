@@ -1,0 +1,27 @@
+---
+// Decorative twinkling starfield for the demo hero. Self-contained SVG, no deps.
+interface Props {
+  count?: number;
+}
+const { count = 70 } = Astro.props;
+const frac = (n: number) => {
+  const x = Math.sin(n) * 43758.5453;
+  return Math.abs(x - Math.floor(x));
+};
+const STAR = 'M0-1C.2-.2.2-.2 1 0 .2.2.2.2 0 1-.2.2-.2.2-1 0-.2-.2-.2-.2 0-1Z';
+const stars = Array.from({ length: count }, (_, i) => {
+  const cx = (frac(i + 1) * 100).toFixed(2);
+  const cy = (frac((i + 1) * 2.7) * 100).toFixed(2);
+  const scale = (frac((i + 1) * 5.3) * 1.3 + 0.5).toFixed(2);
+  const delay = (frac((i + 1) * 9.1) * 3).toFixed(2);
+  return {
+    transform: 'translate(' + cx + ' ' + cy + ') scale(' + scale + ')',
+    delay: delay + 's',
+  };
+});
+---
+<svg class="tina-stars" aria-hidden="true" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+  {stars.map((star) => (
+    <path d={STAR} fill="currentColor" transform={star.transform} style={'animation-delay:' + star.delay} />
+  ))}
+</svg>
