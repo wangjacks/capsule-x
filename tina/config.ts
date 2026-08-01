@@ -64,11 +64,17 @@ export default defineConfig({
             name: "pubDate",
             label: "Publication Date",
             required: true,
+            ui: {
+              dateFormat: "YYYY-MM-DD",
+            },
           },
           {
             type: "datetime",
             name: "updatedDate",
             label: "Updated Date",
+            ui: {
+              dateFormat: "YYYY-MM-DD",
+            },
           },
           {
             type: "string",
