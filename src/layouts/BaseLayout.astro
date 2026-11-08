@@ -34,6 +34,19 @@ const {
 
     <ClientRouter />
 
+    {/* Keeps entrance-animated post items hidden from the very first paint, incl. dev where bundled styles inject late */}
+    <style is:inline>
+      .js .post-item:not(.animate) {
+        opacity: 0;
+      }
+      @media print {
+        .post-item {
+          opacity: 1 !important;
+          animation: none !important;
+        }
+      }
+    </style>
+
     {/* Theme detection script - runs before paint to prevent flash */}
     <script is:inline>
       (function() {
@@ -42,6 +55,8 @@ const {
         const effectiveTheme = saved === 'auto' ? (prefersDark ? 'dark' : 'light') : saved;
         document.documentElement.setAttribute('data-theme', saved);
         document.documentElement.classList.add(effectiveTheme);
+        // Marks JS availability so entrance animations can hide items before first paint
+        document.documentElement.classList.add('js');
       })();
 
       // Re-apply theme after View Transitions swap (before page is visible)
@@ -52,6 +67,7 @@ const {
         document.documentElement.setAttribute('data-theme', saved);
         document.documentElement.classList.remove('dark', 'light');
         document.documentElement.classList.add(effectiveTheme);
+        document.documentElement.classList.add('js');
       });
     </script>
   </head>
